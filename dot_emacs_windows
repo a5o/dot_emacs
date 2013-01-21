@@ -1,0 +1,115 @@
+; disabilito lo splash
+(setq inhibit-splash-screen t)
+
+; abilito i shortcut di copia incolla Ctrl-C, Ctrl-V, ecc...
+(cua-mode 1)
+
+; a capo automatico
+;(global-visual-line-mode 1)
+(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) 
+(setq auto-mode-alist (cons '("\\.text" . markdown-mode) auto-mode-alist))
+(setq org-log-done t)
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("c:/Users/Alberto/Dropbox/journal.org"))))
+;(setq org-default-notes-file ( quote("c:/Users/Alberto/Dropbox/note/notes.org")))
+;(define-key global-map "\C-cl" 'org-store-link)
+;(define-key global-map "\C-ca" 'org-agenda)
+(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
+;(org-remember-insinuate)
+;(setq org-default-notes-file (quote ("c:/Users/Alberto/Dropbox/note/notes.org")))
+;(define-key global-map "\C-cr" 'org-remember)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
+
+;; Deft mode
+(require 'deft)
+(setq deft-extension "org")
+(setq deft-use-filename-as-title t)
+(setq deft-directory "c:/Users/Alberto/Dropbox/notes")
+(setq deft-text-mode 'org-mode)
+(global-set-key [f8] 'deft)
+
+;; wc
+(require 'wc)
+
+;; modified from http://metajack.im/2009/01/01/journaling-with-emacs-orgmode/
+(defvar org-journal-file "c:/Users/Alberto/Dropbox/journal.org"
+  "Path to OrgMode journal file.")
+(defvar org-journal-date-format "%Y-%m-%d"
+  "Date format string for journal headings.")
+
+(defun org-open-journal ()
+  "Open journal file."
+  (interactive)
+  (switch-to-buffer (find-file org-journal-file))
+;  (widen)
+;  (beginning-of-buffer)
+)
+
+(defun org-journal-entry ()
+  "Create a new diary entry for today or append to an existing one."
+  (interactive)
+  (switch-to-buffer (find-file org-journal-file))
+  (widen)
+  (let ((isearch-forward t) (today (format-time-string org-journal-date-format)))
+  (beginning-of-buffer)
+    (unless (org-goto-local-search-headings today nil t)
+      ((lambda () 
+         (org-insert-heading)
+         (insert today)
+         (insert "  \n"))))
+    (beginning-of-buffer)
+    (org-show-entry)
+    (org-narrow-to-subtree)
+    (end-of-buffer)
+    (backward-char 2)
+    (unless (= (current-column) 2)
+      ;(insert "\n\n  "))))
+      (insert (concat "\n\n  " (format-time-string "%R") " - ")))))
+
+(global-set-key [f9] 'org-journal-entry)
+
+
+(defvar org-todo-file "c:/Users/Alberto/Dropbox/todo.org"
+  "Path to OrgMode todo file.")
+
+(defun org-open-todo ()
+  "Open todo file."
+  (interactive)
+  (switch-to-buffer (find-file org-todo-file))
+;  (widen)
+;  (beginning-of-buffer)
+)
+
+(global-set-key [f10] 'org-open-todo)
+
+
+(defun insert-hour ()
+  (interactive)
+  (insert (format-time-string "%R")))
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; set up unicode
+(prefer-coding-system       'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+;; This from a japanese individual.  I hope it works.
+(setq default-buffer-file-coding-system 'utf-8)
+;; From Emacs wiki
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+;; MS Windows clipboard is UTF-16LE 
+(set-clipboard-coding-system 'utf-16le-dos)
+
+
