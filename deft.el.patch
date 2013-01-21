@@ -1,0 +1,43 @@
+--- deft.el	2013-01-13 11:32:24.598525950 +0100
++++ deft.new	2013-01-13 12:22:24.131335449 +0100
+@@ -748,6 +748,32 @@
+         ;; If a buffer is no longer open, remove it from auto save list.
+         (delq buf deft-auto-save-buffers)))))
+ 
++
++(defun deft-archive-file ()
++  "Archive the file represented by the widget at the point.
++If the point is not on a file widget, do nothing."
++  (interactive)
++  (let (old-filename new-filename old-name new-name)
++    (setq old-filename (widget-get (widget-at) :tag))
++    (when old-filename
++      (setq old-name (deft-base-filename old-filename))
++      (setq new-name (concat "archive/"	old-name))
++      (setq new-filename
++            (concat (file-name-as-directory deft-directory)
++                    new-name "." deft-extension))
++            (when (y-or-n-p
++              (concat "Archive file " (file-name-nondirectory old-filename) "? "))
++	      ;; if the filename already exists ask for a new name
++              (while (file-exists-p new-filename)
++      	         (setq new-name (concat "archive/" (read-string
++                      (concat "File already exists, choose a new name (without extension): "))))
++      	         (setq new-filename
++                      (concat (file-name-as-directory deft-directory)
++                        new-name "." deft-extension)))
++      (rename-file old-filename new-filename)
++      (deft-refresh)))))
++
++;
+ ;;; Mode definition
+ 
+ (defun deft-show-version ()
+@@ -788,6 +814,7 @@
+     (define-key map (kbd "C-c C-d") 'deft-delete-file)
+     (define-key map (kbd "C-c C-r") 'deft-rename-file)
+     (define-key map (kbd "C-c C-f") 'deft-find-file)
++    (define-key map (kbd "C-c C-a") 'deft-archive-file)
+     ;; Miscellaneous
+     (define-key map (kbd "C-c C-g") 'deft-refresh)
+     (define-key map (kbd "C-c C-q") 'quit-window)
