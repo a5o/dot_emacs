@@ -122,3 +122,7 @@
 ;(setq ispell-personal-dictionary "C:/Users/Alberto/Documents/.ispell")
 (setq ispell-process-directory (expand-file-name "C:/Users/Alberto/Documents/"))
 (require 'ispell)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs Speaks Statistics
+(require 'ess-site)
