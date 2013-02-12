@@ -113,3 +113,12 @@
 (set-clipboard-coding-system 'utf-16le-dos)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; spell checker
+;; download aspell for windows from http://aspell.net/win32/
+
+(add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/")
+(setq ispell-program-name "aspell")
+;(setq ispell-personal-dictionary "C:/Users/Alberto/Documents/.ispell")
+(setq ispell-process-directory (expand-file-name "C:/Users/Alberto/Documents/"))
+(require 'ispell)
