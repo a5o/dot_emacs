@@ -123,6 +123,27 @@
 (setq ispell-process-directory (expand-file-name "C:/Users/Alberto/Documents/"))
 (require 'ispell)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Emacs Speaks Statistics
-(require 'ess-site)
+;; ESS
+;(require 'ess-site)
+(autoload 'R "ess-site.el" "ESS" t)
+(autoload 'R-mode "ess-site.el" "ESS" t)
+(autoload 'r-mode "ess-site.el" "ESS" t)
+(autoload 'Rd-mode "ess-site.el" "ESS" t)
+(autoload 'noweb-mode "ess-site.el" "ESS" t)
+(add-to-list 'auto-mode-alist '("\\.R$" . R-mode))
+(add-to-list 'auto-mode-alist '("\\.r$" . R-mode))
+(add-to-list 'auto-mode-alist '("\\.Rd$" . Rd-mode))
+(add-to-list 'auto-mode-alist '("\\.Rnw$" . noweb-mode))
+(setq ess-eval-visibly-p nil)
+(setq ess-ask-for-ess-directory nil)
+(require 'ess-eldoc "ess-eldoc" t)
+
+;; Yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(setq user-mail-address "alberto.ferrarini@gmail.com")
+
+;; R-Autoyas
+;(require 'r-autoyas)
+;(add-hook 'ess-mode-hook 'r-autoyas-ess-activate)
