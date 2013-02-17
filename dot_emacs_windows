@@ -4,19 +4,32 @@
 ; abilito i shortcut di copia incolla Ctrl-C, Ctrl-V, ecc...
 (cua-mode 1)
 
+; debug
+;(setq debug-on-error t)
+
 ; a capo automatico
 ;(global-visual-line-mode 1)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+
+; markdown mode
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) 
-(setq auto-mode-alist (cons '("\\.text" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+
+; org-mode configuration
 (setq org-log-done t)
+
+;; org to markdown exporter
+(load "c:/.emacs.d/org-export-generic.el")
+(load "c:/.emacs.d/markdown.el")
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("c:/Users/Alberto/Dropbox/journal.org"))))
+ '(org-agenda-files (quote ("c:/Users/Alberto/Dropbox/journal.org")))
+ '(ps-font-size (quote (7 . 10)))
+ '(textlint-location-vm (quote textlint-guess-location-vm)))
 ;(setq org-default-notes-file ( quote("c:/Users/Alberto/Dropbox/note/notes.org")))
 ;(define-key global-map "\C-cl" 'org-store-link)
 ;(define-key global-map "\C-ca" 'org-agenda)
@@ -147,3 +160,13 @@
 ;; R-Autoyas
 ;(require 'r-autoyas)
 ;(add-hook 'ess-mode-hook 'r-autoyas-ess-activate)
+
+
+;(require 'textlint)
+
+
+;(setenv "GS_LIB" "e:/tools/GSTools/gs8.14/gs8.14/lib;e:/tools/GSTools/gs8.14/fonts")
+(setq ps-lpr-command "c:/Program Files/gs/gs9.07/bin/gswin64c.exe")
+(setq ps-lpr-switches '("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2"))
+(setq ps-printer-name t)
+
